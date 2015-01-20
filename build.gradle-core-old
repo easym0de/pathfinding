@@ -25,7 +25,7 @@ allprojects{
 
 ext{
   projectGroup = 'pathfinding'
-  gdxVersion = '1.2.0'
+  gdxVersion = '1.5.2'
   distDir = file('dist/')   
 }
 
@@ -54,7 +54,6 @@ subprojects{
 }
 
 project(':pathfinding'){
-	apply from : '../publish.gradle'
 
 	dependencies { 
 		testCompile 'junit:junit:4.10'
@@ -62,7 +61,6 @@ project(':pathfinding'){
 }
 
 project(':gdx-bridge'){
-	apply from : '../publish.gradle'
 
    dependencies {
    	compile project(":pathfinding")

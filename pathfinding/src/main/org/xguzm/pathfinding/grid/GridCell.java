@@ -28,7 +28,6 @@ public class GridCell implements NavigationGridGraphNode{
 		this.isWalkable = isWalkable;
 	}
 	
-	
 
 	@Override
 	public void setIndex(int index) {

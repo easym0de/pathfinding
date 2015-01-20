@@ -5,10 +5,10 @@ import org.xguzm.pathfinding.grid.GridCell;
 import com.badlogic.gdx.assets.loaders.FileHandleResolver;
 import com.badlogic.gdx.assets.loaders.resolvers.InternalFileHandleResolver;
 import com.badlogic.gdx.maps.MapProperties;
+import com.badlogic.gdx.maps.tiled.BaseTmxMapLoader;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapTile;
 import com.badlogic.gdx.maps.tiled.TiledMapTileSets;
-import com.badlogic.gdx.maps.tiled.TmxMapHelper;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.utils.XmlReader.Element;
 
@@ -48,7 +48,7 @@ public class NavTmxMapLoader extends TmxMapLoader {
 		int width = element.getIntAttribute("width", 0);
 		int height = element.getIntAttribute("height", 0);
 		
-		int[] ids = TmxMapHelper.getTileIds(element, width, height);
+		int[] ids = BaseTmxMapLoader.getTileIds(element, width, height);
 		TiledMapTileSets tilesets = map.getTileSets();
 		GridCell[][] nodes = new GridCell[width][height];
 		for (int y = 0; y < height; y++) {

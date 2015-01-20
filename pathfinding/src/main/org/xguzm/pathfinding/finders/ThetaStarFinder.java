@@ -26,6 +26,7 @@ public abstract class ThetaStarFinder<T extends NavigationNode> implements PathF
 	private PathFinderOptions defaultOptions;
 	BHeap<T> openList;
 	public int jobId;
+	public T closestWalkableNode;
 		
 	public ThetaStarFinder(Class<T> clazz, PathFinderOptions opt) {
 	    this.defaultOptions = opt ;
@@ -51,6 +52,45 @@ public abstract class ThetaStarFinder<T extends NavigationNode> implements PathF
 		if (jobId == Integer.MAX_VALUE)
 			jobId = 0;
 		int job = ++jobId;
+		closestWalkableNode = null;
+		/*
+		while(endNode.isWalkable() == false){
+			List<T> endNeighbors = graph.getNeighbors(endNode, defaultOptions);
+			T currentEndNodeNeighbor;
+			if(endNeighbors == null){
+				startNode.getH();
+				
+				// up
+			    if (isWalkable(x, y + yDir)) {
+			        neighbors.add(nodes[x][y  + yDir]);
+			        s0 = true;
+			    }
+			    // right
+			    if (isWalkable(x+1, y)) {
+			        neighbors.add(nodes[x + 1][y]);
+			        s1 = true;
+			    }
+			    // down
+			    if (isWalkable(x, y - yDir)) {
+			        neighbors.add(nodes[x][y - yDir]);
+			        s2 = true;
+			    }
+			    // left
+			    if (isWalkable(x - 1, y)) {
+			        neighbors.add(nodes[x - 1][y]);
+			        s3 = true;
+			    }
+				break;
+			}
+			for (int i = 0; i < endNeighbors.size(); i++) {
+				currentEndNodeNeighbor = endNeighbors.get(i);
+				if(currentEndNodeNeighbor.isWalkable()){
+					endNode = currentEndNodeNeighbor;
+					break;
+				}
+			}
+		}*/
+		
 		
 	    T node, neighbor;
         List<T> neighbors = new ArrayList<T>();
@@ -75,6 +115,18 @@ public abstract class ThetaStarFinder<T extends NavigationNode> implements PathF
 	        // if reached the end position, construct the path and return it
 	        if (node == endNode) {
 	            return Util.backtrace(endNode);
+	        }else{
+	        	if(node.isWalkable()){
+	        		if(closestWalkableNode == null){
+	        			closestWalkableNode = node;
+	        		}else{
+	        			
+	        			if(defaultOptions.heuristic.calculate(node, endNode) < defaultOptions.heuristic.calculate(closestWalkableNode, endNode)){
+	        				closestWalkableNode = node;
+	        			}
+	        		}
+	        		
+	        	}
 	        }
 
 	        // get neighbors of the current node
@@ -118,9 +170,11 @@ public abstract class ThetaStarFinder<T extends NavigationNode> implements PathF
 	                }
 	            }
 	        } 
-	    } 
+	    }
+	    
 
 	    // fail to find the path
-	    return null;
+	    //return null;
+	    return Util.backtrace(closestWalkableNode);
 	}
 }
